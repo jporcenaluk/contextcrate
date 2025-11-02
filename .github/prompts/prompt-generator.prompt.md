@@ -1,51 +1,60 @@
 ---
 title: "Prompt Generator"
-summary: "Meta-prompt for crafting high-impact GitHub Copilot prompts in agent mode"
+summary: "Meta-prompt for architecting high-fidelity GitHub Copilot agent-mode prompts"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
 agent: true
 ---
 
 # Objective
-Design a GitHub Copilot agent-mode prompt stored at `.github/prompts/{name}.prompt.md` that orchestrates software-engineering tasks with precision, leveraging Microsoft prompt-engineering guidance.
+Architect a GitHub Copilot agent-mode prompt stored at `.github/prompts/{name}.prompt.md` that orchestrates software-engineering tasks with surgical precision, harnessing Microsoft prompt-engineering tenets.
 
 # Key Principles
-- **Precision first:** Exploit the full range of English vocabulary (>170,000 words) to describe intent succinctly and unambiguously. Replace multi-word approximations with the single most exact term.
-- **Software focus:** Tailor every prompt to software engineering, DevOps, security, data, ML, or adjacent technical disciplines.
-- **Agent alignment:** Ensure the generated prompt clearly specifies agent responsibilities, expected context, decision-making criteria, and required outputs.
+- **Lexical precision:** Harness the full breadth of English vocabulary (177,000+ words) to articulate intent with surgical clarity. Supplant verbose approximations with the singular, most exacting term. Prioritize specificity over generality—each word must bear semantic weight.
+- **Domain specialization:** Calibrate every prompt for software engineering, DevOps, security, data science, machine learning, or cognate technical disciplines. Eschew generic problem-solving patterns in favor of domain-specific protocols.
+- **Agent orchestration:** Ensure the generated prompt unambiguously delineates agent responsibilities, requisite context, decision heuristics, and mandated outputs. Leave no ambiguity in scope boundaries or success criteria.
 - **Microsoft prompt-engineering tenets:**
-  - Lead with scenario, goal, and constraints before detailing steps.
-  - Break complex efforts into staged, numbered actions and highlight prerequisite artifacts.
-  - Supply representative examples, input formats, and reference links when they clarify expectations.
-  - Direct the agent to reason transparently, cite sources when required, and summarize outcomes.
-- **Response customization readiness:** Encourage frontmatter fields (`style`, `tone`, `audience`, `format`) or body directives that tailor Copilot responses for reviewers, stakeholders, or communication channels.
-- **Markdown fidelity:** Produce valid Markdown without superfluous code fences; rely on headings, tables, lists, and callouts to improve clarity.
+  - Establish scenario, objectives, and constraints antecedent to procedural directives.
+  - Decompose intricate workflows into sequenced, numbered actions; enumerate prerequisite artifacts with explicit traceability.
+  - Furnish exemplars, input templates, and authoritative references where they disambiguate expectations.
+  - Mandate transparent reasoning, source attribution, and comprehensive outcome synthesis.
+- **Response customization:** Leverage frontmatter fields (`mode`, `model`, `tools`, `style`, `tone`, `audience`, `format`) or embedded directives that calibrate Copilot responses for distinct stakeholder cohorts and communication modalities.
+- **Markdown rigor:** Produce syntactically valid Markdown eschewing superfluous code fences; deploy headings, tables, enumerations, and callouts to amplify cognitive accessibility.
 
 # Required Sections in Generated Prompts
-1. **Frontmatter** containing `title`, `summary`, and `agent` keys. Set `agent: true` and add optional response customization keys (`style`, `tone`, `audience`, `format`) when they clarify expectations.
-2. **Context** describing the scenario, stakeholders, and any environmental nuances.
-3. **Objectives** outlining the desired end state and measurable success criteria.
-4. **Directives** providing stepwise instructions, each numbered, with crisp action verbs.
-5. **Guardrails** listing constraints, compliance obligations, or quality gates.
-6. **Deliverables** specifying exact output artifacts, formats, and evaluation criteria.
-7. **Verification** detailing checks, tests, or review steps the agent must perform before completion.
-8. **Communication** explaining how progress, blockers, and results should be reported.
-9. **Reference Material** (optional) linking to docs, style guides, or examples that accelerate execution.
+1. **Frontmatter** encompassing `title`, `summary`, `mode: agent`, `model: claude-haiku-4.5`, `tools`, and `agent: true`. Enumerate applicable tools (e.g., `view`, `edit`, `bash`, `github-mcp-server`, `playwright-browser`). Augment with response customization keys (`style`, `tone`, `audience`, `format`) where they enhance stakeholder alignment.
+2. **Context** delineating the operational scenario, stakeholder taxonomy, environmental constraints, and tacit assumptions. Illuminate dependencies, access boundaries, and regulatory obligations.
+3. **Objectives** articulating the terminal state with quantifiable success metrics, acceptance criteria, and exit conditions. Each objective must be measurable and verifiable.
+4. **Directives** furnishing sequenced, numbered imperatives employing decisive action verbs. Mandate prerequisite validations, artifact provenance, and escalation protocols. Each directive must be atomic and actionable.
+5. **Guardrails** enumerating constraints, compliance mandates, security postures, and quality gates. Codify non-negotiable boundaries and escalation thresholds.
+6. **Deliverables** specifying output artifacts with exacting formats, validation schemas, and evaluative criteria. Distinguish primary artifacts from ancillary documentation.
+7. **Verification** detailing validation protocols, test matrices, and review checklists the agent must execute prior to completion. Include command invocations, expected outcomes, and failure remediation paths.
+8. **Communication** explicating progress cadences, escalation channels, and reporting formats. Define information granularity for distinct stakeholder tiers.
+9. **Reference Material** (optional) linking authoritative documentation, architectural decision records, style guides, or canonical exemplars that expedite execution.
 
 # Style Requirements
-- Use bold or italic emphasis sparingly to highlight critical items.
-- Favor bullet lists, tables, and callouts for dense technical information.
-- Avoid hedging language; opt for assertive, directive phrasing.
-- Keep each instruction concise yet exhaustive.
-- Reference personas, tooling expectations, or collaboration norms explicitly when they influence tone or content.
-- Surface follow-up prompts or clarifying questions the agent should ask when requirements are ambiguous.
+- Deploy typographic emphasis (bold, italic) judiciously to spotlight non-negotiable directives or pivotal concepts.
+- Privilege enumerations, tables, and callouts for information-dense technical content, optimizing cognitive load distribution.
+- Eschew hedging constructs; mandate assertive, imperative phrasing that brooks no ambiguity.
+- Maintain instruction concision while ensuring exhaustive coverage—each directive must be self-contained yet interconnected.
+- Explicitly reference personas, tooling ecosystems, or collaboration protocols when they materially influence tonal calibration or content architecture.
+- Enumerate follow-up interrogatives the agent must pose when requirements exhibit ambiguity, ensuring bidirectional clarity.
 
 # Validation Checklist
-Before finalizing the prompt, ensure it:
-- Targets a specific software-engineering scenario.
-- Uses domain terminology accurately and consistently.
-- Clarifies success metrics, acceptance criteria, and preferred response presentation.
-- Remains self-contained, avoiding references to external prompt templates unless provided in-context.
-- Maintains Markdown validity without wrapping the entire document in backticks.
-- Leverages response customization fields or directives when they improve alignment with stakeholders.
+Antecedent to prompt finalization, corroborate that it:
+- Targets a discrete software-engineering scenario with unambiguous boundaries.
+- Employs domain lexicon with terminological precision and semantic consistency.
+- Articulates success metrics, acceptance criteria, and prescribed response architectures without equivocation.
+- Maintains self-sufficiency, eschewing external prompt template dependencies absent explicit contextual provisioning.
+- Preserves Markdown syntactic integrity, avoiding document-spanning code fence encapsulation.
+- Exploits response customization fields (`mode`, `model`, `tools`, `style`, `tone`, `audience`, `format`) to fortify stakeholder alignment.
+- Enumerates appropriate tools comprehensively—prefer surfeit to scarcity; provision more rather than fewer when uncertain.
 
 # Output Format
-Respond **only** with the completed Markdown prompt content. Do not include surrounding commentary or code fences.
+Emit **exclusively** the completed Markdown prompt content. Suppress extraneous commentary, preambles, or document-enclosing code fences. The artifact must be deployment-ready without post-processing.
