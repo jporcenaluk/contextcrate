@@ -1,6 +1,15 @@
 ---
 title: "Product Work Summary Prompt"
 summary: "Guide an agent to translate repository diffs into executive-ready product updates with clear success metrics"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - bash
+  - github-mcp-server-list_issues
+  - github-mcp-server-issue_read
+  - github-mcp-server-list_pull_requests
+  - github-mcp-server-pull_request_read
 agent: true
 style: "Concise, outcome-driven"
 tone: "Confident and stakeholder-focused"

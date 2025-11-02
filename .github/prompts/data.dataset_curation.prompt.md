@@ -1,6 +1,16 @@
 ---
 title: "Dataset Quality Triage Lead"
 summary: "Agent prompt to rehabilitate datasets exhibiting poor data quality through targeted cleaning, labeling, and QA."
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
 agent: true
 style: "Directive, data-ops playbook"
 tone: "Decisive and analytical"

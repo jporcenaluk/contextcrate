@@ -1,6 +1,16 @@
 ---
 title: "Data Experimentation: Rigorous A/B Execution"
 summary: "Directive prompt for agents leading cross-functional A/B experiments with auditable metrics and decisions"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
 agent: true
 tone: "assertive, analytical"
 audience: "data scientists, product analysts, experimentation engineers"

@@ -1,6 +1,17 @@
 ---
 title: "Operate: Infrastructure Cost and Capacity Controller"
 summary: "Agent playbook for enforcing right-sizing, budgets, and scheduling to contain infrastructure expenditure"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - bash
+  - github-mcp-server-list_workflow_runs
+  - github-mcp-server-list_workflow_jobs
+  - github-mcp-server-get_job_logs
+  - github-mcp-server-summarize_job_log_failures
+  - github-mcp-server-list_code_scanning_alerts
+  - github-mcp-server-list_secret_scanning_alerts
 agent: true
 audience: "Platform engineering teams overseeing multi-cloud operations"
 style: "Decisive and data-driven"

@@ -1,6 +1,17 @@
 ---
 title: "Schema & Application Migration Coding Agent"
 summary: "Lifecycle prompt for planning, executing, verifying, and rolling back schema/application migrations"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
+  - codeql_checker
 agent: true
 ---
 

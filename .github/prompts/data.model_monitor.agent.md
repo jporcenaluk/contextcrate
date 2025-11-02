@@ -1,6 +1,16 @@
 ---
 title: "Data Model Monitoring Agent"
 summary: "Lifecycle prompt for an autonomous agent that provisions and operates end-to-end model monitoring with rigorous guardrails"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
 agent: true
 ---
 

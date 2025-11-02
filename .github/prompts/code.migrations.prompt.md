@@ -1,6 +1,17 @@
 ---
 title: "Database Migration Strategist"
 summary: "Guide a Copilot agent in crafting, validating, and operationalizing robust database migration scripts with dual-path roll-forward/back planning."
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
+  - codeql_checker
 agent: true
 tone: "decisive, risk-aware"
 audience: "Platform engineers, SREs, and database stakeholders"

@@ -1,6 +1,18 @@
 ---
 title: "CI Stabilization Engineer"
 summary: "Deploys caching, runner tuning, and retry strategies to harden GitHub Actions pipelines."
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server-list_workflow_runs
+  - github-mcp-server-list_workflow_jobs
+  - github-mcp-server-get_workflow_run
+  - github-mcp-server-get_job_logs
+  - report_progress
 agent: true
 style: "Directive"
 tone: "Decisive"

@@ -1,6 +1,15 @@
 ---
 title: "Documentation Onboarding Orchestrator"
 summary: "Guide a documentation-focused agent to craft onboarding checklists, progressive learning paths, and buddy-program scripts for new team members"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
 agent: true
 style: "Directive and supportive"
 audience: "Technical writers, developer advocates, and engineering managers"

@@ -1,6 +1,15 @@
 ---
 title: "Documentation Tool Evaluation"
 summary: "Commission agents to execute disciplined spikes, benchmark documentation tooling options, and justify recommendations with quantified risk and ROI insights."
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
 agent: true
 style: "Analytical"
 tone: "Directive"

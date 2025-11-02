@@ -1,6 +1,17 @@
 ---
 title: "Codebase Lint and Format Enforcement"
 summary: "Guidance for Copilot agents to eliminate stylistic inconsistency by orchestrating automated linting and formatting workflows."
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
+  - codeql_checker
 agent: true
 tone: "assertive"
 audience: "software maintainers and release engineers"

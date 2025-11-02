@@ -1,6 +1,18 @@
 ---
 title: "Environment Provisioning Delivery"
 summary: "Directive for engineering agents to produce reproducible environment setup scripts, container definitions, and onboarding documentation"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server-list_workflow_runs
+  - github-mcp-server-list_workflow_jobs
+  - github-mcp-server-get_workflow_run
+  - github-mcp-server-get_job_logs
+  - report_progress
 agent: true
 audience: "DevOps engineers and platform maintainers"
 tone: "assertive, authoritative"
