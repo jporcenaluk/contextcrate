@@ -1,6 +1,18 @@
 ---
 title: "Delivery Release Management Orchestrator"
 summary: "Direct an engineering program manager agent to craft end-to-end release plans, notes, and risk gates that stabilize production launches."
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server-list_workflow_runs
+  - github-mcp-server-list_workflow_jobs
+  - github-mcp-server-get_workflow_run
+  - github-mcp-server-get_job_logs
+  - report_progress
 agent: true
 style: "Decisive and audit-ready"
 audience: "Staff-level release managers, SRE leads, QA directors"

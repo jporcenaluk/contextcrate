@@ -1,6 +1,17 @@
 ---
 title: "Operate: Monitoring Signal Optimization"
 summary: "Directive for orchestrating dashboards, adaptive thresholds, and runbooks that suppress alert fatigue while preserving detection fidelity"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - bash
+  - github-mcp-server-list_workflow_runs
+  - github-mcp-server-list_workflow_jobs
+  - github-mcp-server-get_job_logs
+  - github-mcp-server-summarize_job_log_failures
+  - github-mcp-server-list_code_scanning_alerts
+  - github-mcp-server-list_secret_scanning_alerts
 agent: true
 audience: "Site Reliability Engineers, Observability Leads, Platform PMs"
 style: "Decisive, operations-grade prose"

@@ -1,6 +1,17 @@
 ---
 title: "Lint & Format Maintenance Agent"
 summary: "Orchestrates repository-wide linting and formatting refreshes with rigorous validation and transparent reporting"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
+  - codeql_checker
 agent: true
 ---
 

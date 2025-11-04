@@ -1,6 +1,15 @@
 ---
 title: "ADR & RFC Documentation Agent"
 summary: "Process-focused agent prompt for researching, drafting, and aligning architectural decision records and RFCs"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
 agent: true
 ---
 

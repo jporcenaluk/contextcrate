@@ -1,6 +1,15 @@
 ---
 title: "Product Feature Opportunity Mapper"
 summary: "Prompt for product-minded Copilot agents to surface feature opportunities, address gaps, and structure ideation funnels."
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - bash
+  - github-mcp-server-list_issues
+  - github-mcp-server-issue_read
+  - github-mcp-server-list_pull_requests
+  - github-mcp-server-pull_request_read
 agent: true
 tone: "Directive, optimistic, customer-obsessed"
 audience: "Product strategists and cross-functional engineering leads"

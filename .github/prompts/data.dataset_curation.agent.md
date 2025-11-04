@@ -1,6 +1,16 @@
 ---
 title: "Dataset Curation Coding Agent"
 summary: "Autonomous agent prompt governing data cleaning, labeling, validation, and documentation workflows"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
 agent: true
 ---
 

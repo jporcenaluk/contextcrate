@@ -1,6 +1,17 @@
 ---
 title: "Performance Optimization Operator"
 summary: "Agent workflow for diagnosing, implementing, and validating runtime and resource-performance improvements"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - bash
+  - github-mcp-server-list_workflow_runs
+  - github-mcp-server-list_workflow_jobs
+  - github-mcp-server-get_job_logs
+  - github-mcp-server-summarize_job_log_failures
+  - github-mcp-server-list_code_scanning_alerts
+  - github-mcp-server-list_secret_scanning_alerts
 agent: true
 ---
 

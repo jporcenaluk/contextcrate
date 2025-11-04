@@ -1,6 +1,18 @@
 ---
 title: "Dependency Upgrade Delivery"
 summary: "Operational prompt for agents executing scoped dependency upgrade initiatives"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server-list_workflow_runs
+  - github-mcp-server-list_workflow_jobs
+  - github-mcp-server-get_workflow_run
+  - github-mcp-server-get_job_logs
+  - report_progress
 agent: true
 tone: "Decisive, technically rigorous"
 audience: "Senior software engineers, release managers"

@@ -1,6 +1,18 @@
 ---
 title: "Release Governance and Version Fidelity"
 summary: "Direct an engineering delivery agent to enforce semantic versioning, orchestrate backports, and validate cross-branch consistency"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server-list_workflow_runs
+  - github-mcp-server-list_workflow_jobs
+  - github-mcp-server-get_workflow_run
+  - github-mcp-server-get_job_logs
+  - report_progress
 agent: true
 audience: "Release engineers, build sheriffs, and technical program managers"
 style: "Imperative, audit-ready prose"

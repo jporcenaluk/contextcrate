@@ -1,6 +1,17 @@
 ---
 title: "Code Change PR Summary Agent"
 summary: "Prompt for an agent that assembles verified change digests, testing evidence, and stakeholder-ready narratives"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
+  - codeql_checker
 agent: true
 ---
 

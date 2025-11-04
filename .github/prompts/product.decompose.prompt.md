@@ -1,6 +1,15 @@
 ---
 title: "Product Workstream Decomposition"
 summary: "Directive for converting ambiguous product asks into dependency-aware engineering workstreams"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - bash
+  - github-mcp-server-list_issues
+  - github-mcp-server-issue_read
+  - github-mcp-server-list_pull_requests
+  - github-mcp-server-pull_request_read
 agent: true
 audience: "Product-oriented engineering leads and program managers"
 tone: "Decisive and analytical"

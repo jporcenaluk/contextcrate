@@ -1,6 +1,16 @@
 ---
 title: "Feature Store Drift Auditor"
 summary: "Coordinate feature contract definition, validation, and remediation to eliminate training-serving drift"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
 agent: true
 tone: "Authoritative, solution-driven"
 audience: "ML platform engineers, data scientists, MLOps stakeholders"
