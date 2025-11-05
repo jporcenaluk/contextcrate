@@ -1,6 +1,15 @@
 ---
 title: "Cross-Team Dependency Sync"
 summary: "Orchestrate a cross-functional push to define API contracts, delivery timelines, and clear ownership for interdependent product teams."
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - bash
+  - github-mcp-server-list_issues
+  - github-mcp-server-issue_read
+  - github-mcp-server-list_pull_requests
+  - github-mcp-server-pull_request_read
 agent: true
 style: "Decisive, program-management cadence"
 audience: "Product managers, tech leads, and partner-team stakeholders"

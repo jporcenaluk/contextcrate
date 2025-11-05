@@ -1,6 +1,15 @@
 ---
 title: "Architecture Decision Record Orchestrator"
 summary: "Equip the agent to craft or critique ADRs/RFCs with rigorous rationale, explicit trade-offs, and stakeholder-ready clarity."
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
 agent: true
 tone: "Decisive and analytical"
 audience: "Principal engineers, staff architects, and architecture review boards"

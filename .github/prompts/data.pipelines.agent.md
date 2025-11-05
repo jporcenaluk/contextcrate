@@ -1,6 +1,16 @@
 ---
 title: "Data Pipelines Delivery Agent"
 summary: "Autonomous workflow for authoring, validating, and deploying data pipeline DAGs with strong safeguards"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
 agent: true
 ---
 

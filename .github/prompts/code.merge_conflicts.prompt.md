@@ -1,6 +1,17 @@
 ---
 title: "Merge Conflict Mitigation Playbook"
 summary: "Directive prompt for Copilot agents to analyze, prevent, and resolve Git merge conflicts with disciplined collaboration"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
+  - codeql_checker
 agent: true
 style: "decisive"
 tone: "assertive"

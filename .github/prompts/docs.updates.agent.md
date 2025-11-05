@@ -1,6 +1,15 @@
 ---
 title: "Documentation Steward Agent"
 summary: "Lifecycle prompt for an autonomous agent managing documentation inventories, updates, and release-ready records"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
 agent: true
 ---
 

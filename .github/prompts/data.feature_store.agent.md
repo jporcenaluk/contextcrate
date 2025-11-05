@@ -1,6 +1,16 @@
 ---
 title: "Feature Store Data Agent"
 summary: "Workflow for cataloging features, enforcing schemas, validating data pipelines, and aligning deployments"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
 agent: true
 ---
 

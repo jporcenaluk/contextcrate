@@ -1,6 +1,15 @@
 ---
 title: "Hiring Question Architecture"
 summary: "Agent prompt for constructing calibrated interview question banks, scorecards, and rubrics that enforce consistent hiring standards."
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
 agent: true
 audience: "Talent acquisition strategists and hiring panels"
 tone: "Directive, evidence-seeking"

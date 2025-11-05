@@ -1,6 +1,15 @@
 ---
 title: "Code Intent Explainer"
 summary: "Guide an agent to generate in-depth documentation clarifying code purpose, control flow, and edge-case behavior"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
 agent: true
 style: "Precise technical narration"
 tone: "Assured and instructive"

@@ -1,6 +1,17 @@
 ---
 title: "PR Summary Synthesizer"
 summary: "Instructs agents to craft concise, reviewer-optimized pull request summaries with clear risks and validation signals"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - create
+  - edit
+  - bash
+  - github-mcp-server
+  - report_progress
+  - code_review
+  - codeql_checker
 agent: true
 style: "Crisp, authoritative technical prose"
 tone: "Professional and partner-oriented"

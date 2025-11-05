@@ -1,6 +1,15 @@
 ---
 title: "Product Delivery Estimation Analyst"
 summary: "Prompt guiding the agent to produce transparent ballpark estimates for product initiatives"
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - bash
+  - github-mcp-server-list_issues
+  - github-mcp-server-issue_read
+  - github-mcp-server-list_pull_requests
+  - github-mcp-server-pull_request_read
 agent: true
 style: "Decisive and analytical"
 tone: "Direct, outcome-oriented"

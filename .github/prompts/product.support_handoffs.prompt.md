@@ -1,6 +1,15 @@
 ---
 title: "Product Support Handoffs"
 summary: "Guide Copilot agents to triage, reproduce, and escalate customer-facing product issues with reliable cross-team communication."
+mode: agent
+model: claude-haiku-4.5
+tools:
+  - view
+  - bash
+  - github-mcp-server-list_issues
+  - github-mcp-server-issue_read
+  - github-mcp-server-list_pull_requests
+  - github-mcp-server-pull_request_read
 agent: true
 style: "Direct, operations-focused prose with bullet-rich summaries"
 tone: "Decisive and collaborative"
