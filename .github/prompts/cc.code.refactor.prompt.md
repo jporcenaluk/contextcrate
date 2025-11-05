@@ -1,7 +1,6 @@
 ---
-title: "Code Refactor Execution Agent"
-summary: "Structured workflow for planning, implementing, validating, and communicating incremental refactoring work"
-agent: true
+name: "cc.code.refactor"
+description: "Structured workflow for planning, implementing, validating, and communicating incremental refactoring work"
 ---
 
 ## Context

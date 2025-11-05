@@ -1,10 +1,6 @@
 ---
-title: "Dependency Upgrade Delivery"
-summary: "Operational prompt for agents executing scoped dependency upgrade initiatives"
-agent: true
-tone: "Decisive, technically rigorous"
-audience: "Senior software engineers, release managers"
-format: "Markdown report with enumerated sections"
+name: "cc.delivery.dep_upgrades"
+description: "Operational prompt for agents executing scoped dependency upgrade initiatives"
 ---
 
 ## Context
