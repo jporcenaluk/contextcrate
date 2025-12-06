@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# Find the next sequential feature number in .github/.cc/feature/
-# Features are expected to start with ###-feature-name/ (e.g., 001-*, 002-*, etc.)
+# Find the next sequential plan number in .github/.cc/plan/
+# Plans are expected to start with ###-plan-name/ (e.g., 001-*, 002-*, etc.)
 # Returns the next number in sequence (up to 999), handling gaps gracefully
 
-FEATURE_DIR="${1:-.github/.cc/feature}"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+PLAN_DIR="${1:-$SCRIPT_DIR/../plan}"
 
-if [ ! -d "$FEATURE_DIR" ]; then
+if [ ! -d "$PLAN_DIR" ]; then
   echo "001"
   exit 0
 fi
@@ -14,11 +15,10 @@ fi
 # Find all feature directories and extract the numeric prefix
 # Filter for directories matching the pattern ###-*
 max_num=0
-for dir in "$FEATURE_DIR"/[0-9][0-9][0-9]-*/; do
-  if [ -d "$dir" ]; then
+for dir in "$PLAN_DIR"/*; do
+  if [ -d "$dir" ] && [[ "$(basename "$dir")" =~ ^[0-9]{3}- ]]; then
     # Extract the numeric prefix (first 3 characters)
-    num="${dir%%-*}"
-    num="${num##*/}"  # Remove path prefix
+    num="$(basename "$dir" | cut -c1-3)"
     
     # Convert to integer for numeric comparison
     num=$((10#$num))
