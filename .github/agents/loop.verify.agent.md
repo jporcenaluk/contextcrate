@@ -1,5 +1,5 @@
 ---
-name: "Beads Verifier"
+name: "Verifier"
 description: "Quality assurance specialist that verifies implementations against 'beads' requirements."
 tools: ['execute', 'read', 'agent', 'search', 'web', 'todo']
 ---
