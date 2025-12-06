@@ -1,0 +1,94 @@
+name: Auto-Close Beads on PR Merge
+
+on:
+  pull_request:
+    types: [closed]
+
+# Prevent concurrent runs from racing on .beads/issues.jsonl
+concurrency:
+  group: beads-update
+  cancel-in-progress: false
+
+jobs:
+  close-beads-issue:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Checkout the base branch (main) to update beads
+          ref: ${{ github.event.pull_request.base.ref }}
+          # Need write access to push the beads update
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install beads (bd)
+        run: |
+          # Install bd CLI via cargo (Rust package manager)
+          # Alternative: Use a pre-built binary or GitHub release
+          if command -v cargo &> /dev/null; then
+            cargo install beads-cli
+          else
+            # Install Rust if needed
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+            source "$HOME/.cargo/env"
+            cargo install beads-cli
+          fi
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Extract Beads ID from PR
+        id: extract
+        run: |
+          # Try branch name first (most reliable)
+          BRANCH="${{ github.event.pull_request.head.ref }}"
+          BEADS_ID=$(echo "$BRANCH" | grep -oP 'bd-[a-zA-Z0-9]+' | head -1 || true)
+
+          # Fallback to PR body metadata block
+          if [ -z "$BEADS_ID" ]; then
+            BODY='${{ github.event.pull_request.body }}'
+            BEADS_ID=$(echo "$BODY" | grep -oP 'beads_id:\s*\Kbd-[a-zA-Z0-9]+' | sed 's/beads_id:\s*//' | head -1 || true)
+          fi
+
+          # Fallback to PR title [bd-xxx] format
+          if [ -z "$BEADS_ID" ]; then
+            TITLE='${{ github.event.pull_request.title }}'
+            BEADS_ID=$(echo "$TITLE" | grep -oP '\[bd-[a-zA-Z0-9]+\]' | tr -d '[]' | head -1 || true)
+          fi
+
+          echo "beads_id=$BEADS_ID" >> $GITHUB_OUTPUT
+          echo "Found beads ID: $BEADS_ID"
+
+      - name: Close Beads Issue
+        if: steps.extract.outputs.beads_id != ''
+        env:
+          BEADS_ID: ${{ steps.extract.outputs.beads_id }}
+          PR_NUM: ${{ github.event.pull_request.number }}
+        run: |
+          # Close the beads issue
+          bd close "$BEADS_ID" --reason "PR #$PR_NUM merged" --json || echo "Warning: Could not close $BEADS_ID"
+
+          # Commit the updated beads database
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet .beads/issues.jsonl 2>/dev/null; then
+            echo "No changes to beads database"
+          else
+            git add .beads/issues.jsonl
+            git commit -m "chore(beads): close $BEADS_ID after PR #$PR_NUM merge"
+            git push
+          fi
+
+      - name: Close Linked GitHub Issue
+        if: steps.extract.outputs.beads_id != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BEADS_ID: ${{ steps.extract.outputs.beads_id }}
+        run: |
+          # Find and close the GitHub Issue that spawned this PR
+          ISSUE_NUM=$(gh issue list --search "$BEADS_ID in:title" --state open --json number -q '.[0].number' || true)
+
+          if [ -n "$ISSUE_NUM" ]; then
+            gh issue close "$ISSUE_NUM" --comment "✅ Closed by PR #${{ github.event.pull_request.number }} merge. Beads issue $BEADS_ID complete."
+          fi
