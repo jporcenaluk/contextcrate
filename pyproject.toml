@@ -1,0 +1,31 @@
+# Context Crate - Root configuration
+[project]
+name = "contextcrate"
+version = "0.1.0"
+description = "Curated library of prompts and agents for GitHub Copilot"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit",
+    "ruff",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "W"]
+ignore = []
+
+# Exclude common directories
+exclude = [
+    ".git",
+    ".beads",
+    "__pycache__",
+    "*.pyc",
+    ".venv",
+    "venv",
+]

@@ -13,51 +13,57 @@ jobs:
   close-beads-issue:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # Checkout the base branch (main) to update beads
           ref: ${{ github.event.pull_request.base.ref }}
-          # Need write access to push the beads update
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Install beads (bd)
         run: |
-          # Install bd CLI via cargo (Rust package manager)
-          # Alternative: Use a pre-built binary or GitHub release
-          if command -v cargo &> /dev/null; then
-            cargo install beads-cli
-          else
-            # Install Rust if needed
-            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-            source "$HOME/.cargo/env"
-            cargo install beads-cli
-          fi
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          # Install bd
+          curl -fsSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash
 
       - name: Extract Beads ID from PR
         id: extract
         run: |
-          # Try branch name first (most reliable)
-          BRANCH="${{ github.event.pull_request.head.ref }}"
-          BEADS_ID=$(echo "$BRANCH" | grep -oP 'bd-[a-zA-Z0-9]+' | head -1 || true)
-
-          # Fallback to PR body metadata block
+          BEADS_ID=""
+          
+          # Method 1: Look for beads-sync-marker in PR body (most reliable)
+          BODY='${{ github.event.pull_request.body }}'
+          BEADS_ID=$(echo "$BODY" | grep -oP '(?<=beads-sync-marker: )[a-zA-Z]+-[a-zA-Z0-9]+' | head -1 || true)
+          
+          # Method 2: Check branch name for beads/<id>-* pattern
           if [ -z "$BEADS_ID" ]; then
-            BODY='${{ github.event.pull_request.body }}'
-            BEADS_ID=$(echo "$BODY" | grep -oP 'beads_id:\s*\Kbd-[a-zA-Z0-9]+' | sed 's/beads_id:\s*//' | head -1 || true)
+            BRANCH="${{ github.event.pull_request.head.ref }}"
+            BEADS_ID=$(echo "$BRANCH" | grep -oP '(?<=beads/)[a-zA-Z]+-[a-zA-Z0-9]+' | head -1 || true)
           fi
-
-          # Fallback to PR title [bd-xxx] format
+          
+          # Method 3: Check PR title for [<id>] pattern
           if [ -z "$BEADS_ID" ]; then
             TITLE='${{ github.event.pull_request.title }}'
-            BEADS_ID=$(echo "$TITLE" | grep -oP '\[bd-[a-zA-Z0-9]+\]' | tr -d '[]' | head -1 || true)
+            BEADS_ID=$(echo "$TITLE" | grep -oP '(?<=\[)[a-zA-Z]+-[a-zA-Z0-9]+(?=\])' | head -1 || true)
           fi
-
+          
+          # Method 4: Check linked issue title (if issue was closed by PR)
+          if [ -z "$BEADS_ID" ]; then
+            LINKED_ISSUES=$(gh pr view ${{ github.event.pull_request.number }} \
+              --json closingIssuesReferences -q '.closingIssuesReferences[].title' 2>/dev/null || true)
+            if [ -n "$LINKED_ISSUES" ]; then
+              BEADS_ID=$(echo "$LINKED_ISSUES" | grep -oP '(?<=\[)[a-zA-Z]+-[a-zA-Z0-9]+(?=\])' | head -1 || true)
+            fi
+          fi
+          
           echo "beads_id=$BEADS_ID" >> $GITHUB_OUTPUT
-          echo "Found beads ID: $BEADS_ID"
+          echo "Found beads ID: ${BEADS_ID:-'(none)'}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Close Beads Issue
         if: steps.extract.outputs.beads_id != ''
@@ -65,20 +71,40 @@ jobs:
           BEADS_ID: ${{ steps.extract.outputs.beads_id }}
           PR_NUM: ${{ github.event.pull_request.number }}
         run: |
+          # Verify the bead exists before trying to close
+          if ! bd show "$BEADS_ID" --json > /dev/null 2>&1; then
+            echo "Warning: Bead $BEADS_ID not found in database, skipping"
+            exit 0
+          fi
+          
           # Close the beads issue
-          bd close "$BEADS_ID" --reason "PR #$PR_NUM merged" --json || echo "Warning: Could not close $BEADS_ID"
+          bd close "$BEADS_ID" --reason "PR #$PR_NUM merged" --json || {
+            echo "Warning: Could not close $BEADS_ID (may already be closed)"
+          }
 
-          # Commit the updated beads database
+      - name: Commit Beads State
+        if: steps.extract.outputs.beads_id != ''
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
+          
+          # Check if there are changes to commit
           if git diff --quiet .beads/issues.jsonl 2>/dev/null; then
             echo "No changes to beads database"
-          else
-            git add .beads/issues.jsonl
-            git commit -m "chore(beads): close $BEADS_ID after PR #$PR_NUM merge"
-            git push
+            exit 0
           fi
+          
+          git add .beads/issues.jsonl
+          git commit -m "chore(beads): close ${{ steps.extract.outputs.beads_id }} (PR #${{ github.event.pull_request.number }})"
+          
+          # Pull and rebase in case of concurrent updates
+          git pull --rebase origin ${{ github.event.pull_request.base.ref }} || {
+            echo "Rebase conflict detected, attempting merge"
+            git rebase --abort
+            git pull --no-rebase origin ${{ github.event.pull_request.base.ref }}
+          }
+          
+          git push
 
       - name: Close Linked GitHub Issue
         if: steps.extract.outputs.beads_id != ''
@@ -86,9 +112,18 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BEADS_ID: ${{ steps.extract.outputs.beads_id }}
         run: |
-          # Find and close the GitHub Issue that spawned this PR
-          ISSUE_NUM=$(gh issue list --search "$BEADS_ID in:title" --state open --json number -q '.[0].number' || true)
-
+          # Find the spawned GitHub Issue by searching for the bead ID in title
+          ISSUE_NUM=$(gh issue list \
+            --search "[$BEADS_ID] in:title" \
+            --label "beads-spawned" \
+            --state open \
+            --json number \
+            -q '.[0].number' 2>/dev/null || true)
+          
           if [ -n "$ISSUE_NUM" ]; then
-            gh issue close "$ISSUE_NUM" --comment "✅ Closed by PR #${{ github.event.pull_request.number }} merge. Beads issue $BEADS_ID complete."
+            gh issue close "$ISSUE_NUM" \
+              --comment "✅ Completed by PR #${{ github.event.pull_request.number }}. Bead $BEADS_ID closed."
+            echo "Closed GitHub Issue #$ISSUE_NUM"
+          else
+            echo "No open GitHub Issue found for bead $BEADS_ID"
           fi
