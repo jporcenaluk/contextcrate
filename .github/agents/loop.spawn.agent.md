@@ -2,7 +2,15 @@
 name: "loop.spawn"
 description: "Dispatcher agent that bridges beads (bd CLI) and GitHub Issues for cloud-based parallel execution. Reads ready beads, creates GitHub Issues, assigns Copilot, and tracks progress."
 tools: ['vscode', 'execute', 'read', 'agent', 'search']
-handoffs: [loop.plan, loop.sync]
+handoffs:
+  - label: "Plan"
+    agent: "loop.plan"
+    prompt: "Make a plan to do work."
+    send: true
+  - label: "Sync"
+    agent: "loop.sync"
+    prompt: "Ensure there are no conflicts between agents suring wave."
+    send: true
 ---
 
 # Loop Spawn Agent — Beads → GitHub Issue Dispatcher
