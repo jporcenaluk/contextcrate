@@ -42,29 +42,10 @@ def test_toggle_behavior_exists(page: Page) -> None:
     # Click to toggle
     text_element.click()
     
-    # Wait for text to change using Playwright's built-in waiting
+    # Verify text changed to the other state using Playwright's built-in waiting
     expected_text = "what" if initial_text == "hey" else "hey"
     expect(text_element).to_have_text(expected_text)
-    
-    # Get the new text after clicking
-    toggled_text = text_element.inner_text()
-    
-    # Verify the text changed to the other state
-    if initial_text == "hey":
-        assert toggled_text == "what", (
-            f"Expected 'what' after clicking 'hey', got '{toggled_text}'"
-        )
-    else:
-        assert toggled_text == "hey", (
-            f"Expected 'hey' after clicking 'what', got '{toggled_text}'"
-        )
     
     # Click again to toggle back
     text_element.click()
     expect(text_element).to_have_text(initial_text)
-    
-    # Verify it toggles back to the original state
-    final_text = text_element.inner_text()
-    assert final_text == initial_text, (
-        f"Expected to toggle back to '{initial_text}', got '{final_text}'"
-    )
