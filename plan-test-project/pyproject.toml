@@ -8,11 +8,14 @@ version = "0.1.0"
 description = "A bootstrapped Python project with best practices"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "flask>=3.1.2",
+]
 
 [project.optional-dependencies]
 dev = [
     "pytest",
+    "pytest-playwright>=0.7.2",
     "ruff",
     "mypy",
 ]
