@@ -42,8 +42,9 @@ def test_toggle_behavior_exists(page: Page) -> None:
     # Click to toggle
     text_element.click()
     
-    # Wait for text to change
-    page.wait_for_timeout(100)  # Small delay for any animations
+    # Wait for text to change using Playwright's built-in waiting
+    expected_text = "what" if initial_text == "hey" else "hey"
+    expect(text_element).to_have_text(expected_text)
     
     # Get the new text after clicking
     toggled_text = text_element.inner_text()
@@ -60,7 +61,7 @@ def test_toggle_behavior_exists(page: Page) -> None:
     
     # Click again to toggle back
     text_element.click()
-    page.wait_for_timeout(100)
+    expect(text_element).to_have_text(initial_text)
     
     # Verify it toggles back to the original state
     final_text = text_element.inner_text()
