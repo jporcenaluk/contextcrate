@@ -1,0 +1,14 @@
+{
+  "feeds": [
+    {
+      "name": "Python Insider",
+      "url": "https://feeds.feedburner.com/PythonInsider",
+      "category": "python"
+    },
+    {
+      "name": "Martin Fowler",
+      "url": "https://martinfowler.com/feed.atom",
+      "category": "architecture"
+    }
+  ]
+}

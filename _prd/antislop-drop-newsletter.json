@@ -1,0 +1,41 @@
+{
+  "project": "antislop-drop-newsletter",
+  "status": "in_progress",
+  "runtime": "python3.13",
+  "items": [
+    {
+      "id": "item-1",
+      "title": "Set up Python 3.13 baseline and quality tooling",
+      "status": "done",
+      "dependencies": []
+    },
+    {
+      "id": "item-2",
+      "title": "Define curated RSS source registry",
+      "status": "done",
+      "dependencies": ["item-1"]
+    },
+    {
+      "id": "item-3",
+      "title": "Implement anti-slop ranking and selection",
+      "status": "done",
+      "dependencies": ["item-2"]
+    },
+    {
+      "id": "item-4",
+      "title": "Generate markdown newsletter output",
+      "status": "done",
+      "dependencies": ["item-3"]
+    },
+    {
+      "id": "item-5",
+      "title": "Validate with automated tests",
+      "status": "done",
+      "dependencies": ["item-3", "item-4"]
+    }
+  ],
+  "notes": [
+    "Previous PR ignored per request; implementation reset as one-shot delivery.",
+    "Dependencies respected by building feed config before ranking and rendering modules."
+  ]
+}
